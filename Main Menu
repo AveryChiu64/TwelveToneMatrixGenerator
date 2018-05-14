@@ -1,0 +1,77 @@
+
+//==============================================================================
+// Program name - Main Menu
+// Author - Avery Chiu
+// Date - 2018/03/03
+// Programming Language, version number - Eclipse Java EE IDE for Web Developers.
+//Version: Neon.1a Release (4.6.1)
+//Build id: 20161007-1200
+// ==============================================================================
+//Problem Definition: This program allows users to choose which program they would like to run
+//Input: The user inputs the number that represents the program they want to run
+//Output: The computer calls different classes for the user (different programs)
+//Process: The computer sees which option the user enters and chooses a class to call upon 
+//==============================================================================
+//								VARIABLES
+// - let userInput represent the string that the user inputs (type string)
+// - let br represent an object used for user input (type BufferedReader)
+//==============================================================================
+
+import java.io.*;//imports the java.io library
+
+public class MainMenu {// start of public class MainMenu
+	public static void main(String[] args) throws IOException {
+		// Beginning of the main method
+
+		// Variables
+		String userInput;
+
+		// System objects
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		// Main Menu
+		// prompts user to choose an option
+		System.out.println("=======================================================================================");
+		System.out.println("Welcome to the main menu");
+		System.out.println("This program runs two different programs");
+		System.out.println("\t1. Enter 1 to play the Game of Divisors");
+		System.out.println("\t2. Enter 2 to play reduce a fraction");
+		System.out.println("\t3. Enter 3 to exit the program");
+		System.out.println("=======================================================================================");
+
+		while (true) {// keeps the loop running and continues
+			userInput = br.readLine();// reads user input
+			if (userInput.equals("1")) {// runs if the user chooses
+				// to play the Game of Divisors
+				System.out.println("You have chosen the Game of Divisors");
+				System.out.println();
+				GameOfDivisors.main(args);// Calls upon the GameOfDivisors class
+				break;// breaks out the loop so the user isn't still stuck in
+						// the loop
+				// if they decide to return to the main menu
+			} // end of if statement if the user chooses the game of divisors
+			else if (userInput.equals("2")) {// runs if the user chooses to
+				// reduce a fraction
+				System.out.println("You have chosen the program that reduces fractions");
+				System.out.println();
+				ReductionOfFraction.main(args);// Calls upon the
+												// ReductionOfFraction class
+				break;// breaks out the loop so the user isn't still stuck in
+						// the loop
+				// if they decide to return to the main menu
+			} // end of else if statement if user chooses to reduce a fraction
+			else if (userInput.equals("3")) {// runs if the user chooses to exit
+												// the program
+				System.out.println("You have exited the program");
+				break;// breaks out the loop so the user isn't still stuck in
+						// the loop
+				// if they decide to return to the main menu
+			} // end of else if statement if user chooses to exit the program
+			else
+				System.out.println("Please enter a proper option");
+			// prompts the user to enter a proper option
+
+		} // end of while loop for switch
+
+	}// end of main method
+}// end of class MainMenu
