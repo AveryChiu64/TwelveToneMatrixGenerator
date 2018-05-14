@@ -1,0 +1,559 @@
+//==============================================================================
+// Program name - SoccerLeague
+// Author - Avery Chiu
+// Date - 2018/04/15
+// Programming Language, version number - Java 9
+// ==============================================================================
+//Definition:The program accepts user input of the results of a soccer game
+// and stores it in another file. The program processes the information to be stored.
+//Input: The user inputs results of the game in the form 
+// <teamcode1><teamscore1><teamcode2><teamscore2> eg B3D2 means that Team B
+// scored 3 points while Team D scored 2 points in a match
+//Output: The results of a single match.
+//Process: The program will check the user input and divide the String into several parts
+//	to make sure that the user has entered proper input.
+//==============================================================================
+
+/**main method:
+ * This procedural method is called automatically and is used to organize the calling of other methods defined in the class
+ *
+ * -----------------------------List of Local Variables------------------------
+ * results -an array that stores the information of the results of the matches (type int[][])
+ * organizedResults - an array that has the organized information of the results of the matches (type int[][])
+ * fileName - the name of the file that the results come from 
+ * sl - object used to access methods in the SoccerLeague class(type SoccerLeague)
+ * 
+ *
+ * @param args;type String;
+ * @throws IO Exception
+ * @return void
+ */
+import java.io.*;//imports the io library
+
+public class SoccerLeague {// start of class SoccerLeague
+	public static void main(String[] args) throws IOException {// main method
+
+		// Variables
+		int[][] results=new int[48][4];
+		String fileName;
+		int [][] organizedResults=new int[8][8];
+
+		/*The organizedResults 2D integer array is formated to match the chart.
+		 * Column 0 stores the team names (in order from A to H)
+		 * Each row represents a team name (from A to H)
+		 * Column 1 stores the number of games played.
+		 * Column 2 stores the number of wins each team has.
+		 * Column 3 stores the number of ties each team has.
+		 * Column 4 stores the number of losses each team has.
+		 * Column 5 stores the number of goals for each team has.
+		 * Column 6 stores the number of goals against each team has.
+		 * Column 7 stores the number of points each team gets
+		 * Note: A team gets two points for a win, one point for a tie, 
+		 * and no points for a loss.
+		 */
+
+		// System objects
+		SoccerLeague sl = new SoccerLeague();
+
+		//Details for the user
+		System.out.println("=============================================================");
+		System.out.println("This program keeps track of team standings in a soccer league.");
+		System.out.println("The teams are A,B,C,D,E,F,G and H.");
+		System.out.println("When all the results have been submitted a table will be created.");
+		System.out.println("to show each team's standings.");
+		System.out.println("There is a maximum of 48 games.");
+		System.out.println("A team gets two points for a win, one point for a tie,");
+		System.out.println("but no points for a loss.");
+		System.out.println("=============================================================");
+
+		//Method Calls 
+		fileName=sl.nameOfTheFile();//Calls upon the nameOfTheFile method to accept a file name.
+		results = sl.inputResults(fileName);//Calls upon the inputResults method to read the file
+		//and store results.
+		organizedResults=sl.storedResultsForGraph(results);
+		//Calls upon the storedResultsForGraph method to accumulate all the results from the user input
+
+　
+　
+　
+	}// end of main method
+	/**
+	 * nameOfTheFile Method: This functional method gets the name the file
+	 * that stores the results
+	 *
+	 * -----------------------------List of Local Variables------------------------
+	 * fileName - The name of the file that stores the results (type String).
+	 * in - an object used to get user input(type BufferedReader).
+	 * br - an object used to read input from a file(type BufferedReader).
+	 * 
+	 * @param  None
+	 * @throws IOException
+	 * @return fileName-The name of the file that stores the results(type String).
+	 */
+
+	String nameOfTheFile() throws IOException {//Beginning of method nameOfTheFile 
+
+		//System objects
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+
+		//Variables
+		String fileName="h://data.txt";
+
+		//Prompts the user to enter a result 
+		System.out.println("=============================================================");
+		System.out.println("Please enter the results of the games in a file.");
+		System.out.println("Each entry should be in the form");
+		System.out.println("<teamcode1><teamscore1><teamcode2><teamscore2> eg. B3D2");
+		System.out.println("Remeber to use capitals for the team names ");
+		System.out.println("Team 1 should be the winner.");
+		System.out.println("Team 2 should be the loser.");
+		System.out.println("If it is a tie the order does not matter.");
+		System.out.println("After you have printed one score out, move to the next line.");
+		System.out.println("Please enter the directory of the file.");
+		System.out.println("eg. h://data.txt");
+		System.out.println("=============================================================");
+
+　
+		while(true) {//Beginning of while loop.
+			try{//Beginning of the try and catch. 
+				fileName=in.readLine();//Accepts a file name. 
+				BufferedReader br = new BufferedReader (new FileReader(fileName));
+				//Reads the file that the user entered.
+				break;//Breaks out of the loop if there is proper input.
+			} //End of try.
+			catch(Exception e) {//Catches any exceptions if the file
+				//cannot be read.
+
+				//Prompts the user to enter a proper file name.
+				System.out.println("Unable to open file '" +fileName + "'");           
+				System.out.println("Please enter a proper directory of the file.");
+			}//End of catch.
+		}//End of while loop.
+		return fileName;
+	}//End of method nameOfTheFile.
+
+　
+	/**
+	 * inputResults Method: This functional methods finds the results of a match
+	 * from user input. 
+	 * 
+	 *-----------------------------List of Local Variables------------------------
+	 * input – used to accept results from a match (type String)
+	 * winningTeamScoreLine- the score of the winning team (type String)
+	 * losingTeamScoreLine - the score of the losing team (type String)
+	 * posistionOfLosingTeam - the index value of the character of
+	 * 						 the losing team in the user input(type int)
+	 * winningTeamScore - the score of the winning team (type int)
+	 * losingTeamScore - the score of the losing team(type int)
+	 * winningTeam - the name of the winning team (type char)
+	 * losingTeam - the name of losing team(type char)
+	 * firstCharacter - the first character of the user input (type char)
+	 * results -a 2D array that stores the information of the results of the matches  (type int[][])
+	 * br – object used to get user input from a file (type BufferedReader)
+	 * sl - object used to access methods in the SoccerLeague class(type SoccerLeague)
+	 * count- counts the number of games that have been played 
+	 * @param fileName - the name of the file to be opened(type String)
+	 * @throws IO Exception
+	 * @return the results from a match (type int[][])
+	 */
+
+	int[][] inputResults(String fileName) throws IOException {// Start of inputResults method.
+
+		// System Objects
+		BufferedReader br = new BufferedReader (new FileReader(fileName));
+		SoccerLeague sl = new SoccerLeague();
+
+		// Variables
+		String input="a" ,winningTeamScoreLine, losingTeamScoreLine;
+		char winningTeam='a', losingTeam='a',firstCharacter;
+		int positionOfLosingTeam=0,winningTeamScore,losingTeamScore,count=0;
+		int [][] results=new int[48][4];
+
+		//Tells the user the file is being processed.
+		System.out.println("The file is being read...");
+
+		while (input!=null||count==48) {// Loop to check to make sure the user enters proper input
+			//that will exit out when the file ends or when 48 games have been played.
+
+			try {// Beginning of try catch.
+				input = br.readLine();// Accepts user input.
+
+				if (input==null||count==48) //Checks if the file ends or if 48 games have been played.
+					break;//Breaks out of the loop to return to the main method.
+
+　
+				firstCharacter= input.charAt(0);// Gets the first value of the String input.
+
+				winningTeam = sl.winningTeamCheck(firstCharacter);//Calls upon the winningTeamCheck method.
+				losingTeam = sl.losingTeamCheck(input);//Calls upon the losingteamCheck method.
+
+				positionOfLosingTeam=input.indexOf((int) losingTeam, 1);
+				//Finds the index value of the losing team.
+				if(positionOfLosingTeam==-1)//If the losing team cannot be found in as an 
+					//upper case letter, the lower case letter will be checked.
+					positionOfLosingTeam=input.indexOf((int) Character.toLowerCase(losingTeam), 1);
+				//Finds the index value of the losing team.
+
+				//Gets the score of the winning team and turns it into an integer.
+				winningTeamScoreLine=input.substring(1,positionOfLosingTeam);
+				winningTeamScore=Integer.parseInt(winningTeamScoreLine);
+
+				//Gets the score of the losing team and turns it into an integer.
+				losingTeamScoreLine=input.substring(positionOfLosingTeam+1);
+				losingTeamScore=Integer.parseInt(losingTeamScoreLine);
+
+　
+				if (winningTeam != 'z'&& losingTeam!='z'&&winningTeam!=losingTeam
+						&&winningTeamScore >= losingTeamScore) {
+					// Checks if the user has entered a proper input.
+
+					results[count][0]=winningTeam;//Stores the winningTeam name into
+					//the first column of the "count" row.
+
+					results[count][1]=winningTeamScore;//Stores the winning team score into the
+					//second column of the "count" row.
+
+					results[count][2]=losingTeam;//Stores the losingTeam name into
+					//the third column of the "count" row.
+
+					results[count][3]=losingTeamScore;//Stores the losing team score into
+					//the fourth column of the "count" row.
+
+					sl.singleResult(results,count);//THIS IS FOR TESTING REMOVE THIS AFTER
+
+					count++;//Adds one to count to indicate that there is another line of results.
+				}//End of if statement.
+				else {// If the user does not enter proper input he will be prompted to
+					// enter proper input.
+
+					// Prompts the user to enter proper input.
+					System.out.println("=============================================================");
+					System.out.println("Please enter proper a result of a game in the form");
+					System.out.println("<teamcode1><teamscore1><teamcode2><teamscore2> eg. B3D2");
+					System.out.println("Team 1 should be the winner");
+					System.out.println("Team 2 should be the loser");
+					System.out.println("The input "+input+" is invalid");
+					System.out.println("This will not be entered into the chart");
+					System.out.println("=============================================================");
+				}//end of else to tell user which input is invalid 
+
+			} catch (Exception e) {// Catches any exceptions if the user tries to crash the program.
+
+				// Prompts the user to enter proper input.
+				System.out.println("=============================================================");
+				System.out.println("Please enter proper a result of a game in the form");
+				System.out.println("<teamcode1><teamscore1><teamcode2><teamscore2> eg. B3D2");
+				System.out.println("Team 1 should be the winner");
+				System.out.println("Team 2 should be the loser");
+				System.out.println("The input "+input+" is invalid");
+				System.out.println("This will not be entered into the chart");
+				System.out.println("=============================================================");
+			}//end of catch
+		}//end of while loop
+		br.close();//closes the file 
+		return results;// returns the user input to the main method
+	}// end of inputResults method
+
+　
+　
+　
+　
+　
+	/**
+	 * winningTeamCheck Method: This functional method checks if the user has
+	 * entered a proper winning team name
+	 *
+	 * -----------------------------List of Local Variables------------------------
+	 * check- A variable in a for loop used to check if the first value entered is a team name(type char)
+	 * 
+	 * @param firstCharacter- The first character from the user input
+	 * @throws None
+	 * @return The team name of the winning team (winningTeam) (type char) will be returned 
+	 * if a proper team name was entered.
+	 * Otherwise the character 'z' will be returned
+	 */
+
+	protected char winningTeamCheck(char firstCharacter) {//Beginning of winningTeamCheck method
+
+		//Variables
+		char check;
+		char winningTeam='a';
+
+		firstCharacter=Character.toUpperCase(firstCharacter);
+		//Changes the first character to upper case in case the user
+		//entered a lower case letter 
+
+		for (check = 'A'; check <= 'H'; check++) {// Checks through all the possible teams
+			// to make sure the user entered a proper team.
+
+			if (firstCharacter == check) {// Searches through each team name to see
+				// if the first character of the string represents a team.
+				winningTeam=check;
+				//Sets winningTeam equal to the team name that was checked.
+				//This also indicates that the user has entered proper input.
+				break;// Breaks out of the for loop
+
+			} else // If a proper winningTeam cannot be found from the first character
+				// of the user input, then the user did not input a proper result.
+				winningTeam='z';
+			//Sets winningTeam equal to 'z' if a team cannot be found.
+			//'z' indicates that the user has not entered proper input.
+
+		} // End of for loop to check through all the teams for a winning team
+		return winningTeam;
+		//Returns winningTeam to the inputResults method
+	}//End of winningTeamCheck method
+
+　
+	/**
+	 * losingTeamCheck Method: This functional method checks if the user has
+	 * entered a proper losing team name.
+	 *
+	 * -----------------------------List of Local Variables------------------------
+	 * posistionOfLosingTeam- The index value of the losing team from the user input(type int).
+	 * check- A variable in a for loop used to check if the first value entered is a team name(type char).
+	 * losingTeam- The name of the losing team (type char).
+	 * @param input- The user input(type String)
+	 * @throws None
+	 * @return The team name of the losing team(losingTeam)(type char) will be returned
+	 * if a proper team name was entered.
+	 * Otherwise the character 'z' will be returned.
+	 */
+	protected char losingTeamCheck(String input) {//Start of losingTeamCheck method 
+		//Variables
+		int positionOfLosingTeam;
+		char check,losingTeam='z';
+
+		for (check = 'A'; check <= 'H'; check++) {//Checks through all possible teams (from A-H).
+			positionOfLosingTeam = input.indexOf((int) check, 1);
+
+			//Starts from the first character of the String and searches for the losing team index 
+			//value in the rest of the string that the user inputed.
+
+			if (positionOfLosingTeam > 0) {//If a losing team name can be found in the string
+				//it's index value will be greater than 0
+				losingTeam = input.charAt(positionOfLosingTeam);
+				//Gets the name of the losing team from the String.
+				break;
+
+			} else if (positionOfLosingTeam == -1&&check=='H') {//If none of the team names are found 
+				//the program will check lower case letters
+
+				for (check = 'a'; check <= 'h'; check++) {//Checks through all possible teams (from a-h)
+					//in case the user entered  a lower case letter
+					positionOfLosingTeam = input.indexOf((int) check, 1);
+					//Starts from the first character of the String and searches for the losing team index 
+					//value in the rest of the string that the user inputed.
+
+					if (positionOfLosingTeam > 0) {//If a losing team name can be found in the string
+						//it's index value will be greater than 0
+						losingTeam = input.charAt(positionOfLosingTeam);
+						//Gets the name of the losing team from the String.
+						losingTeam=Character.toUpperCase(losingTeam);
+						//Sets the losing team to upper case so it can be read later in
+						//the code.
+						break;
+
+					}//End of if statement to check if another character exist in the user input.
+					else if (positionOfLosingTeam == -1) {//If none of the team names are found 
+						//posistionOfLosingTeam will be -1.
+						losingTeam='z';
+						//Sets the losingTeam equal to 'z' which indicates that the user
+						//has not entered proper input and a losing team cannot be found.
+					}//End of else if statement to confirm that the user has not entered
+					//proper input.
+
+				} //End of the inner for loop to check for a losing team.
+			} // End of else if statement to check if any team name appeared in the String
+			//(other than the winning team's).
+		}// End of for loop to check for the losing team.
+		return losingTeam;//Returns losingTeam to inputResults method.
+	}//end of losingTeamCheck method
+
+	/**
+	 * singleResult method: This method tells the user the result they have entered 
+	 * THIS IS FOR TESTING PURPOSES ONLY DELETE THIS AFTER 
+	 *DELETE THIS 
+	 * -----------------------------List of Local Variables------------------------
+	 * none
+	 * 
+	 * @param results(type String[]) is an array that stores the information 
+	 * of the results of a single match 
+	 * @throws None
+	 * @return None
+	 */
+
+	void singleResult(int [][] results,int count) {//Beginning of singleResult method
+		if(results[count][1]==(results[count][3])) {//checks for a tie 
+			//Tells the user which teams are tied
+			System.out.println("Both Team "+(char)results[count][0]+" and Team "+(char)results[count][2]+" are tied.");
+			System.out.println("They both have a score of "+results[count][1]);
+			System.out.println("=============================================================");
+			//Tells the user the score of both teams.
+
+		}else {
+			System.out.println("Team "+(char)results[count][0]+" is the winner with a score of "+results[count][1]);
+			System.out.println("Team "+(char)results[count][2]+" is the loser with a score of "+results[count][3]);
+			System.out.println("=============================================================");
+		}
+
+　
+	}//End of singleResult method (DELETE THIS AFTER)
+
+　
+	/**
+	 * storedResultsForGraph method: This method accumulates the results from
+	 * the user input.
+
+	 * -----------------------------List of Local Variables------------------------
+	 * teams-A variable to represent the ASCII value of the team names (type int)
+	 * 
+	 * resultRow- A variable used to represent the row that a result 
+	 * 		is stored in (eg the first result would be in the 0th row)
+	 * 
+	 * count-A variable used to count how many times a loop runs to store 
+	 * 		values in the correct row (type int)
+	 * 
+	 * organizedResults-A 2D array used to store the accumulated results 
+	 * 
+	 * 
+	 * @param results(type int[][]) is a 2D array that stores the information 
+	 * of the results from the matches.
+	 * @throws None
+	 * @return organizedResults(type int[][]) 
+	 */
+
+　
+　
+	int [][] storedResultsForGraph (int [][] results) {//Beginning of storedResultsForGraph method.
+
+		//Variables
+		int teams,resultRow=0,count=0;
+		int [][] organizedResults=new int[8][8];
+		/*The organizedResults 2D integer array is formated to match the chart.
+		 * Column 0 stores the team names (in order from A to H)
+		 * Note:These will be sorted later, this 2D array just organizes the user input
+		 * Each row represents a team name (from A to H)
+		 * Column 1 stores the number of games played.
+		 * Column 2 stores the number of wins each team has.
+		 * Column 3 stores the number of ties each team has.
+		 * Column 4 stores the number of losses each team has.
+		 * Column 5 stores the number of goals for each team has.
+		 * Column 6 stores the number of goals against each team has.
+		 * Column 7 stores the number of points each team gets
+		 * Note: A team gets two points for a win, one point for a tie, 
+		 * and no points for a loss.
+		 */
+
+　
+　
+		//This loop sets all the rows to represent one of the teams
+		for(teams='A';teams<='H';teams++) {//Beginning of for loop
+			organizedResults[count][0]=teams;
+			//Sets the team name to one of the rows
+			count++;
+			//Adds one to count to move down one row
+		}//end of for loop
+
+　
+		//This loop goes through each result that was entered and stores information.
+		for(resultRow=0;resultRow<48;resultRow++) {//Beginning of for loop.
+			count=0;//This resets the count to 0 to make sure it isn't carried over from
+			//a previous loop.
+
+			if(results[resultRow][0]==0)//Checks if there is still input
+				break;//If there is no more input, the computer will break
+			//out of the loop.
+
+			if(results[resultRow][1]==results[resultRow][3]) {//Checks for a tie.
+				for(teams='A';teams<='H';teams++) {//Inner loop to check through each team
+					//to see which ones are mentioned from the results.
+					if(results[resultRow][0]==teams) {//Checks to see which team tied.
+						organizedResults[count][1]++;
+						//Counts the number of games a team has played.
+						organizedResults[count][3]++;
+						//Counts the number of ties a team has.
+						organizedResults[count][5]+=results[resultRow][1];
+						//Adds up the number of goals a team scored.
+						organizedResults[count][6]+=results[resultRow][3];
+						//Adds up the number of goals that were scored against the team.
+						organizedResults[count][7]++;
+						//Gives the team one point for a tie.
+
+					}//End of if statement to check which teams tied
+					//and to record results.
+
+					if(results[resultRow][2]==teams) {//Checks to see the other team that tied.
+						organizedResults[count][1]++;
+						//Counts the number of games a team has played.
+						organizedResults[count][3]++;
+						//Counts the number of ties a team has.
+						organizedResults[count][5]+=results[resultRow][3];
+						//Adds up the number of goals a team scored.
+						organizedResults[count][6]+=results[resultRow][1];
+						//Adds up the number of goals that were scored against the team.
+						organizedResults[count][7]++;
+						//Gives the team one point for a tie.
+
+					}//End of if statement to check which other team tied
+					//and to record results.
+
+					count++;//Adds up the number of times the loop goes 
+					//so that the result can be stored in the 
+					//proper row.
+				}//End of inner for loop.
+			}else {//Beginning of else statement to record scores
+				//for the games that are not tied
+				for(teams='A';teams<='H';teams++) {//Inner loop to check through each team
+					//to see which ones are mentioned from the results.
+					if(results[resultRow][0]==teams) {//Checks which team has won.
+						organizedResults[count][1]++;
+						//Counts the number of games a team has played.
+						organizedResults[count][2]++;
+						//Counts the number of wins a team has.
+						organizedResults[count][5]+=results[resultRow][1];
+						//Adds up the number of goals a team scored.
+						organizedResults[count][6]+=results[resultRow][3];
+						//Adds up the number of goals that were scored against the team.
+						organizedResults[count][7]+=2;
+						//Gives the team two points for a win.
+
+					}//End of if statement to record results for a winning team
+
+					if(results[resultRow][2]==teams) {//Checks which team has lost.
+						organizedResults[count][1]++;
+						//Counts the number of games a team has played.
+						organizedResults[count][4]++;
+						//Counts the number of losses a team has.
+						organizedResults[count][5]+=results[resultRow][3];
+						//Adds up the number of goals a team scored.
+						organizedResults[count][6]+=results[resultRow][1];
+						//Adds up the number of goals that were scored against the team.
+
+					}//End of if statement to record results for the losing team
+					count++;//Adds up the number of times the loop goes 
+					//so that the result can be stored in the 
+					//proper row.
+
+				}//end of inner for loop to check through each team.
+			}//End of else statement to record scores for the games that are not tied.
+		}//end of for loop that goes through each result and stores information.
+
+		return organizedResults;
+	}//End of storedResultsForGraph method.
+
+　
+　
+　
+　
+	int [][] sortResults(int [][] organizedResults) {//Beginning of the sortResults method.
+
+　
+　
+	}//End of the sortResults method.
+
+　
+　
+　
+　
+}// end of class SoccerLeague
