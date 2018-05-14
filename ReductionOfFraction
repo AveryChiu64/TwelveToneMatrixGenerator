@@ -1,0 +1,225 @@
+
+//=================================================================
+// Program name: ReductionOfFraction
+// Name:Avery Chiu
+// Date:3/1/2018
+// // Programming Language, version number - Eclipse Java EE IDE for Web Developers.
+//Version: Neon.1a Release (4.6.1)
+//Build id: 20161007-1200
+//=================================================================
+//Problem Definition - The program reduces a fraction to its simplest form(while the numerator and denominator are integers)
+//Input - The user inputs the number of the numerator and number of the denominator
+//Output -The output is the reduced fraction
+//Process -The program reduces the fraction that is entered by dividing the numerator and denominator by the greatest
+//			common factor. It deals with negatives by making sure that negatives will either go in the numerator or cancel out.
+//			The program will also find how many times the numerator can go in the denominator to create a mixed fraction.
+//==============================================================================
+//								VARIABLES
+// - let numerator represent the numerator of the fraction(type int)
+// - let denominator represent the denominator of the fraction (type int)
+// - let gcf represent the number the greatest common factor that divides the numerator and denominator into its smallest factors(type int)
+// - let num1 represent the number used to calculate the gcf (using the Euclidian algorithm)(type int)
+// - let num2 represent another number used to calculate the gcf (using the Euclidian algorithm)(type int)
+// - let mainDecision represent the choice that the user makes at the start of the program (type string)
+// - let mixed represent the number of times that the fraction can be divided without remainders(type int)
+// - let simpleNumerator represent the simplified numerator(type int)
+// - let simpleDenominator represent the simplified denominator(type int)
+// - let br represent an object used for user input (type BufferedReader)
+//==============================================================================
+
+import java.io.*;//import the java.io. class
+
+public class ReductionOfFraction {// beginning of ReductionOfFraction class
+
+	public static void main(String[] args) throws IOException {// start of main
+		// method
+
+		// System objects
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		// Variables
+		int numerator, denominator, gcf, remainder, num1, num2, mixed, simpleNumerator, simpleDenominator;
+		String mainDecision;
+
+		// Introduction
+		// Prompts the user to make a decision
+		System.out.println("========================================================================================");
+		System.out.println("Welcome, this program will reduce a fraction to its simplest form.");
+		System.out.println("\t1.Type 1 to enter a numerator or denominator");
+		System.out.println("\t2.Type 2 to return to the main menu");
+		System.out.println("========================================================================================");
+		mainDecision = br.readLine();// reads the decision that the user makes
+		while (true)
+			if (mainDecision.equals("1")) {// the user chooses option 1 (to
+				// enter a numerator and denominator)
+				System.out.println("Please enter a numerator");
+				// prompts the user to enter a numerator
+				while (true) {// beginning of loop to catch exceptions
+					try {// lets the user enter a certain input
+						numerator = Integer.parseInt(br.readLine());
+						// reads a numerator
+						break;// breaks out of the loop if the numerator is fine
+					} catch (NumberFormatException e) {
+						// makes sure the user does not enter a non numerical
+						// value
+						System.out.println("Please enter a proper numerator");
+					} // end of catch that catches if the user enters a
+						// non-numerical value
+
+				} // end of while loop to catch exceptions
+				System.out.println("Please enter a denominator");
+				// prompts the user to enter a denominator
+				while (true) {// beginning of loop to catch exceptions
+					try {// lets the user enter a certain input
+						denominator = Integer.parseInt(br.readLine());// reads a
+																		// denominator
+						if (denominator == 0)// checks if the denominator is
+												// equal to 0 (this isn't
+												// possible)
+							System.out.println("Please enter a proper denominator, you cannot divide by zero");
+						// prompts the user to enter a denominator that is not
+						// zero
+						else
+							break;// breaks out of the loop as long as the
+									// denominator is not 0
+					} catch (NumberFormatException e) {
+						// makes sure the user does not enter a non numerical
+						// value
+						System.out.println("Please enter a proper denominator");
+					} // end of the catch if the user enters a non numerical
+						// value
+
+				} // end of while loop to catch exceptions
+
+				System.out.println("You have entered " + numerator + "/" + denominator);
+				// sets num1 and num2 equal to the numerator and denominator
+				// this lets us keep the original values that the user entered
+				// to be used later
+				// while allowing us to find the gcf with the Euclidian
+				// algorithm
+
+				if (numerator == 0)// checks if the user enters a numerator as 0
+					System.out.println("The fraction simplifies into " + numerator);
+				// if the numerator is 0
+				// the simplified number will always be 0
+
+				num1 = numerator;// sets the first number equal to the numerator
+				num2 = denominator;// sets the second number equal to the
+									// denominator
+				while (num2 != 0) {// Euclidian algorithm to find the greatest
+									// common denominator
+					// the loop will keep running as long as the remainder is
+					// not 0
+
+					remainder = num1 % num2;// finds the remainder of the first
+											// number divided by the second
+					num1 = num2;// sets the first number equal to the second
+								// number
+					num2 = remainder;// sets the second number equal to the
+										// remainder
+				} // end of euclidian algorithm
+					// as soon as the loop ends
+					// the greatest common factor should be the first number
+
+				gcf = num1;// sets the greatest common factor equal to num1
+
+				if (gcf < 0)// makes sure that the gcf is positive
+					gcf = gcf * -1;// if it isn't positive the gcf will be
+									// multiplied by -1
+				// to make it positive
+
+				simpleNumerator = numerator / gcf;
+				// finds the simplified numerator by
+				// dividing the numerator by the greatest common factor
+				simpleDenominator = denominator / gcf;
+				// finds the simplified denominator by
+				// dividing the denominator by the greatest common factor
+
+				if (denominator < 0) {// checks if there is a negative in the
+										// denominator
+					simpleNumerator = numerator / gcf * -1;
+					simpleDenominator = denominator / gcf * -1;
+					// divides the numerator and denominator by the gcf to
+					// create a simplified fraction
+					// and then divides both the numerator and denominator
+					// by -1 to make sure the negative is in the numerator
+					// also makes sure that if the user enters two negatives
+					// that the fraction comes out as positive
+
+				} // end of if statement to check if the denominator is negative
+
+				else {
+					simpleNumerator = (numerator / gcf);
+					simpleDenominator = (denominator / gcf);
+					// divides the numerator and denominator by the gcf
+					// we do not need to multiply by -1
+					// since the two numbers are either positive
+					// or the numerator was already negative
+					// thus it will keep its original sign
+				} // end of else statement if denominator is greater than 0
+
+				if (simpleDenominator > 1)// checks if the denominator
+					// is greater than 1
+					System.out.println("The simplified fraction is " + simpleNumerator + "/" + simpleDenominator);
+				// prints out a simplified fraction
+				else {
+				} // does not print out a simplified fraction in the form a/b
+					// if the fraction can be divided fully eg 5/1 = 5
+					// end of if and else statement to check if
+					// the fraction can be divided with no remainder
+
+				mixed = numerator / denominator;// divides the numerator by
+												// denominator to find
+				// the value of the whole number
+				if (mixed != 0) {// checks if a mixed fraction is possible
+					if (simpleDenominator == 1)// checks if the simplified
+												// denominator is 1
+						System.out.println("The fraction divides perfectly into " + mixed);
+					// the fraction will always divide perfectly if the
+					// denominator is 1
+					else if (simpleNumerator < 0 && simpleDenominator > 0)
+						System.out.println("The mixed fraction is " + mixed + " "
+								+ (simpleNumerator - mixed * simpleDenominator) * -1 + "/" + simpleDenominator);
+					// the numerator of a mixed fraction is found by
+					// subtracting the numerator of an improper fraction
+					// by the whole number(mixed) multiplied by the denominator
+					// of the improper fraction(simpleDenominator)
+					// the numerator is then multiplied by -1 to make it
+					// positive
+					// (Since the whole number (mixed) is already negative
+					else
+						System.out.println("The mixed fraction is " + mixed + " "
+								+ (simpleNumerator - mixed * simpleDenominator) + "/" + simpleDenominator);
+					// the numerator of a mixed fraction is found by
+					// subtracting the numerator of an improper fraction
+					// by the whole number(mixed) multiplied by the denominator
+					// of the improper fraction(simpleDenominator)
+
+				} else // skips the process of finding
+						// a mixed fraction if one cannot be made
+
+					// prompts the user to make a decision
+					System.out.println(
+							"========================================================================================");
+				System.out.println("\t1.Type 1 to enter a numerator or denominator");
+				System.out.println("\t2.Type 2 to return to the main menu");
+				System.out.println(
+						"========================================================================================");
+				mainDecision = br.readLine();// reads user input
+
+			} // end of mainDecision 1(the numerator and denominator has been
+				// simplified)
+
+			else if (mainDecision.equals("2")) {// the user chooses option 2 (to
+				// exit the ReductionOfFraction class
+				System.out.println("You have chosen to return to the main menu.");
+				break;// breaks the user out of the loop so the program ends
+			} else {// default else statement in case the user does not choose
+				// an option
+				System.out.println("Please enter a proper option");
+				// prompts the user to choose a proper option
+				mainDecision = br.readLine();// lets the user choose an option
+			} // end of default else statement
+		MainMenu.main(args);// calls upon the MainMenu class
+	}// end of main method
+}// end of class ReductionOfFraction
