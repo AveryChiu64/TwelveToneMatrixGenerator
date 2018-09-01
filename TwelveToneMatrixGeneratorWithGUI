@@ -1,0 +1,529 @@
+aimport org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.jface.text.TextViewer;
+
+
+public class TwelveToneMatrixGenerator {
+
+	protected Shell shell;
+	private Text noteTwelve;
+	private Text noteOne;
+	private Text noteTwo;
+	private Text noteThree;
+	private Text noteFour;
+	private Text noteFive;
+	private Text noteSix;
+	private Text noteSeven;
+	private Text noteEight;
+	private Text noteNine;
+	private Text noteTen;
+	private Text noteEleven;
+	private Label lblTheTwelveTone;
+	private Label lblYouCanWrite;
+	private Button randomMatrix;
+	private Label lblNoteTheFirst;
+	private Label lblProgrammedByAvery;
+	private DragSource dragSource;
+	private Label lblInSerialisticMusic;
+	private Label lblEachNoteIs;
+	private Text matrixBox1;
+	private Text matrixBox2;
+	private Text matrixBox3;
+	private Text matrixBox4;
+	private Text matrixBox5;
+	private Text matrixBox6;
+	private Text matrixBox7;
+	private Text matrixBox8;
+	private Text matrixBox9;
+	private Text matrixBox10;
+	private Text matrixBox11;
+	private Text matrixBox12;
+
+	/**
+	 * Launch the application.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		try {
+			TwelveToneMatrixGenerator window = new TwelveToneMatrixGenerator();
+			window.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Open the window.
+	 */
+	public void open() {
+		Display display = Display.getDefault();
+		createContents();
+		shell.open();
+		shell.layout();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
+
+	/**
+	 * Create contents of the window.
+	 */
+	protected void createContents() {
+		shell = new Shell();
+		shell.setSize(600, 900);
+		shell.setText("Twelve Tone Matrix Generator");
+		shell.setLayout(new FormLayout());
+
+		Label lblWelcomeToThe = new Label(shell, SWT.NONE);
+		FormData fd_lblWelcomeToThe = new FormData();
+		fd_lblWelcomeToThe.bottom = new FormAttachment(0, 34);
+		fd_lblWelcomeToThe.right = new FormAttachment(0, 517);
+		fd_lblWelcomeToThe.top = new FormAttachment(0, 10);
+		fd_lblWelcomeToThe.left = new FormAttachment(0, 108);
+		lblWelcomeToThe.setLayoutData(fd_lblWelcomeToThe);
+		lblWelcomeToThe.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		lblWelcomeToThe.setText("Welcome to the Twelve Tone Matrix Generator");
+
+		Button randomRow = new Button(shell, SWT.NONE);
+		FormData fd_randomRow = new FormData();
+		fd_randomRow.bottom = new FormAttachment(0, 198);
+		fd_randomRow.right = new FormAttachment(0, 387);
+		fd_randomRow.top = new FormAttachment(0, 165);
+		fd_randomRow.left = new FormAttachment(0, 177);
+		randomRow.setLayoutData(fd_randomRow);
+		randomRow.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Variables
+				int noOfNotes = 12, temp = 0;
+				int[] notes= new int[12];
+
+				for (int i = 0; i < noOfNotes; i++)// Initializes each number in the array to a note
+					notes[i] = i;
+
+				for (int i = 1; i < noOfNotes; i++) {// Beginning of loop to shuffle
+					int s = i + (int) (Math.random() * (noOfNotes - i));
+					temp = notes[s];
+					notes[s] = notes[i];
+					notes[i] = temp;
+				} // End of loop to shuffle
+
+				noteOne.setText(""+notes[0]);
+				noteTwo.setText(""+notes[1]);
+				noteThree.setText(""+notes[2]);
+				noteFour.setText(""+notes[3]);
+				noteFive.setText(""+notes[4]);
+				noteSix.setText(""+notes[5]);
+				noteSeven.setText(""+notes[6]);
+				noteEight.setText(""+notes[7]);
+				noteNine.setText(""+notes[8]);
+				noteTen.setText(""+notes[9]);
+				noteEleven.setText(""+notes[10]);
+				noteTwelve.setText(""+notes[11]);
+
+
+			}
+		});
+		randomRow.setText("Generate a random\r\n twelve tone row");
+
+		Label lblTheProgram = new Label(shell, SWT.NONE);
+		FormData fd_lblTheProgram = new FormData();
+		fd_lblTheProgram.bottom = new FormAttachment(0, 75);
+		fd_lblTheProgram.right = new FormAttachment(0, 517);
+		fd_lblTheProgram.top = new FormAttachment(0, 51);
+		fd_lblTheProgram.left = new FormAttachment(0, 51);
+		lblTheProgram.setLayoutData(fd_lblTheProgram);
+		lblTheProgram.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblTheProgram.setText("The program will generate a matrix based off of a twelve tone row");
+
+		noteTwelve = new Text(shell, SWT.BORDER);
+		FormData fd_noteTwelve = new FormData();
+		fd_noteTwelve.right = new FormAttachment(0, 507);
+		fd_noteTwelve.top = new FormAttachment(0, 225);
+		fd_noteTwelve.left = new FormAttachment(0, 478);
+		noteTwelve.setLayoutData(fd_noteTwelve);
+
+		noteOne = new Text(shell, SWT.BORDER);
+		FormData fd_noteOne = new FormData();
+		fd_noteOne.right = new FormAttachment(0, 111);
+		fd_noteOne.top = new FormAttachment(0, 225);
+		fd_noteOne.left = new FormAttachment(0, 82);
+		noteOne.setLayoutData(fd_noteOne);
+
+		noteTwo = new Text(shell, SWT.BORDER);
+		FormData fd_noteTwo = new FormData();
+		fd_noteTwo.right = new FormAttachment(0, 150);
+		fd_noteTwo.top = new FormAttachment(0, 225);
+		fd_noteTwo.left = new FormAttachment(0, 121);
+		noteTwo.setLayoutData(fd_noteTwo);
+
+		noteThree = new Text(shell, SWT.BORDER);
+		FormData fd_noteThree = new FormData();
+		fd_noteThree.right = new FormAttachment(0, 190);
+		fd_noteThree.top = new FormAttachment(0, 225);
+		fd_noteThree.left = new FormAttachment(0, 161);
+		noteThree.setLayoutData(fd_noteThree);
+
+		noteFour = new Text(shell, SWT.BORDER);
+		FormData fd_noteFour = new FormData();
+		fd_noteFour.right = new FormAttachment(0, 225);
+		fd_noteFour.top = new FormAttachment(0, 225);
+		fd_noteFour.left = new FormAttachment(0, 196);
+		noteFour.setLayoutData(fd_noteFour);
+
+		noteFive = new Text(shell, SWT.BORDER);
+		FormData fd_noteFive = new FormData();
+		fd_noteFive.right = new FormAttachment(0, 260);
+		fd_noteFive.top = new FormAttachment(0, 225);
+		fd_noteFive.left = new FormAttachment(0, 231);
+		noteFive.setLayoutData(fd_noteFive);
+
+		noteSix = new Text(shell, SWT.BORDER);
+		FormData fd_noteSix = new FormData();
+		fd_noteSix.right = new FormAttachment(0, 295);
+		fd_noteSix.top = new FormAttachment(0, 225);
+		fd_noteSix.left = new FormAttachment(0, 266);
+		noteSix.setLayoutData(fd_noteSix);
+
+		noteSeven = new Text(shell, SWT.BORDER);
+		FormData fd_noteSeven = new FormData();
+		fd_noteSeven.right = new FormAttachment(0, 330);
+		fd_noteSeven.top = new FormAttachment(0, 225);
+		fd_noteSeven.left = new FormAttachment(0, 301);
+		noteSeven.setLayoutData(fd_noteSeven);
+
+		noteEight = new Text(shell, SWT.BORDER);
+		FormData fd_noteEight = new FormData();
+		fd_noteEight.right = new FormAttachment(0, 365);
+		fd_noteEight.top = new FormAttachment(0, 225);
+		fd_noteEight.left = new FormAttachment(0, 336);
+		noteEight.setLayoutData(fd_noteEight);
+
+		noteNine = new Text(shell, SWT.BORDER);
+		FormData fd_noteNine = new FormData();
+		fd_noteNine.right = new FormAttachment(0, 400);
+		fd_noteNine.top = new FormAttachment(0, 225);
+		fd_noteNine.left = new FormAttachment(0, 371);
+		noteNine.setLayoutData(fd_noteNine);
+
+		noteTen = new Text(shell, SWT.BORDER);
+		FormData fd_noteTen = new FormData();
+		fd_noteTen.right = new FormAttachment(0, 437);
+		fd_noteTen.top = new FormAttachment(0, 225);
+		fd_noteTen.left = new FormAttachment(0, 408);
+		noteTen.setLayoutData(fd_noteTen);
+
+		noteEleven = new Text(shell, SWT.BORDER);
+		FormData fd_noteEleven = new FormData();
+		fd_noteEleven.right = new FormAttachment(0, 472);
+		fd_noteEleven.top = new FormAttachment(0, 225);
+		fd_noteEleven.left = new FormAttachment(0, 443);
+		noteEleven.setLayoutData(fd_noteEleven);
+
+		lblTheTwelveTone = new Label(shell, SWT.NONE);
+		FormData fd_lblTheTwelveTone = new FormData();
+		fd_lblTheTwelveTone.right = new FormAttachment(0, 351);
+		fd_lblTheTwelveTone.top = new FormAttachment(0, 204);
+		fd_lblTheTwelveTone.left = new FormAttachment(0, 209);
+		lblTheTwelveTone.setLayoutData(fd_lblTheTwelveTone);
+		lblTheTwelveTone.setText("The Twelve Tone Row is...");
+
+		lblYouCanWrite = new Label(shell, SWT.NONE);
+		FormData fd_lblYouCanWrite = new FormData();
+		fd_lblYouCanWrite.right = new FormAttachment(0, 574);
+		fd_lblYouCanWrite.top = new FormAttachment(0, 75);
+		fd_lblYouCanWrite.left = new FormAttachment(0, 38);
+		lblYouCanWrite.setLayoutData(fd_lblYouCanWrite);
+		lblYouCanWrite.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblYouCanWrite.setText("You can write your row below or press the button to generate a random one");
+
+		randomMatrix = new Button(shell, SWT.NONE);
+		FormData fd_randomMatrix = new FormData();
+		fd_randomMatrix.right = new FormAttachment(0, 387);
+		fd_randomMatrix.top = new FormAttachment(0, 266);
+		fd_randomMatrix.left = new FormAttachment(0, 189);
+		randomMatrix.setLayoutData(fd_randomMatrix);
+		randomMatrix.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Variables
+				int[][] matrix = new int[12][12];
+				boolean check=true;
+				try {
+
+
+					matrix[0][0]=Integer.parseInt(noteOne.getText());
+					matrix[0][1]=Integer.parseInt(noteTwo.getText());
+					matrix[0][2]=Integer.parseInt(noteThree.getText());
+					matrix[0][3]=Integer.parseInt(noteFour.getText());
+					matrix[0][4]=Integer.parseInt(noteFive.getText());
+					matrix[0][5]=Integer.parseInt(noteSix.getText());
+					matrix[0][6]=Integer.parseInt(noteSeven.getText());
+					matrix[0][7]=Integer.parseInt(noteEight.getText());
+					matrix[0][8]=Integer.parseInt(noteNine.getText());
+					matrix[0][9]=Integer.parseInt(noteTen.getText());
+					matrix[0][10]=Integer.parseInt(noteEleven.getText());
+					matrix[0][11]=Integer.parseInt(noteTwelve.getText());
+
+					for (int i = 0; i < 11; i++) {
+						if (matrix[0][i] > 11)
+							check = false;
+					}
+
+					if (matrix[0][0] != 0 && check == false) {
+						MessageDialog.openError(shell,"Error", "Make sure the first note is 0 and that proper numbers are entered");
+						return;
+					}
+
+				}catch(Exception exc) {
+					MessageDialog.openError(shell,"Error", "improper input");
+					return;
+				}
+
+				for (int i = 1; i < 12; i++) {
+					matrix[i][0] = 12 - matrix[0][i];// Fills the first column with the inversion
+					if (matrix[i][0] == 12)
+						matrix[i][0] = 0;
+				}
+				for (int i = 1; i < 12; i++) {// Beginning of outer loop
+					for (int j = 1; j < 12; j++) {// Beginning of inner loop
+						matrix[i][j] = matrix[i][0] + matrix[0][j];// Fills the rest of the row
+						if (matrix[i][j] > 11)// Makes sure the numbers aren't greater than 11
+							matrix[i][j] -= 12;
+
+					} // End of inner loop
+				} // End of outer loop
+
+				matrixBox1.setText("");
+				matrixBox2.setText("");
+				matrixBox3.setText("");
+				matrixBox4.setText("");
+				matrixBox5.setText("");
+				matrixBox6.setText("");
+				matrixBox7.setText("");
+				matrixBox8.setText("");
+				matrixBox9.setText("");
+				matrixBox10.setText("");
+				matrixBox11.setText("");
+				matrixBox12.setText("");
+
+				for (int i = 0; i < 12; i++) 
+					matrixBox1.setText(matrixBox1.getText() + matrix[0][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox2.setText(matrixBox2.getText() + matrix[1][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox3.setText(matrixBox3.getText() + matrix[2][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox4.setText(matrixBox4.getText() + matrix[3][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox5.setText(matrixBox5.getText() + matrix[4][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox6.setText(matrixBox6.getText() + matrix[5][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox7.setText(matrixBox7.getText() + matrix[6][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox8.setText(matrixBox8.getText() + matrix[7][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox9.setText(matrixBox9.getText() + matrix[8][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox10.setText(matrixBox10.getText() + matrix[9][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox11.setText(matrixBox11.getText() + matrix[10][i] + "\t");
+				for (int i = 0; i < 12; i++) 
+					matrixBox12.setText(matrixBox12.getText() + matrix[11][i] + "\t");
+
+
+
+			}
+		});
+		randomMatrix.setText("Generate a matrix");
+
+		lblNoteTheFirst = new Label(shell, SWT.NONE);
+		FormData fd_lblNoteTheFirst = new FormData();
+		fd_lblNoteTheFirst.bottom = new FormAttachment(0, 169);
+		fd_lblNoteTheFirst.right = new FormAttachment(0, 574);
+		fd_lblNoteTheFirst.top = new FormAttachment(0, 145);
+		fd_lblNoteTheFirst.left = new FormAttachment(0, 38);
+		lblNoteTheFirst.setLayoutData(fd_lblNoteTheFirst);
+		lblNoteTheFirst.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblNoteTheFirst.setText("Note: The first note must always be 0 for the matrix to be created properly");
+
+		lblProgrammedByAvery = new Label(shell, SWT.NONE);
+		FormData fd_lblProgrammedByAvery = new FormData();
+		fd_lblProgrammedByAvery.bottom = new FormAttachment(0, 56);
+		fd_lblProgrammedByAvery.right = new FormAttachment(0, 394);
+		fd_lblProgrammedByAvery.top = new FormAttachment(0, 32);
+		fd_lblProgrammedByAvery.left = new FormAttachment(0, 196);
+		lblProgrammedByAvery.setLayoutData(fd_lblProgrammedByAvery);
+		lblProgrammedByAvery.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblProgrammedByAvery.setText("Created by Avery Chiu");
+
+		dragSource = new DragSource(shell, DND.DROP_MOVE);
+
+		lblInSerialisticMusic = new Label(shell, SWT.NONE);
+		FormData fd_lblInSerialisticMusic = new FormData();
+		fd_lblInSerialisticMusic.bottom = new FormAttachment(0, 126);
+		fd_lblInSerialisticMusic.right = new FormAttachment(0, 585);
+		fd_lblInSerialisticMusic.top = new FormAttachment(0, 102);
+		fd_lblInSerialisticMusic.left = new FormAttachment(0, 51);
+		lblInSerialisticMusic.setLayoutData(fd_lblInSerialisticMusic);
+		lblInSerialisticMusic.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblInSerialisticMusic.setText("In serialism, note names do not matter as they are all equal in value");
+
+		lblEachNoteIs = new Label(shell, SWT.NONE);
+		FormData fd_lblEachNoteIs = new FormData();
+		fd_lblEachNoteIs.right = new FormAttachment(0, 523);
+		fd_lblEachNoteIs.top = new FormAttachment(0, 121);
+		fd_lblEachNoteIs.left = new FormAttachment(0, 94);
+		lblEachNoteIs.setLayoutData(fd_lblEachNoteIs);
+		lblEachNoteIs.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblEachNoteIs.setText("Each pitch is given a value from 0-11, Eg. C=0, C#/Db=1,D=2 ...");
+
+		matrixBox1 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox1 = new FormData();
+		fd_matrixBox1.bottom = new FormAttachment(randomMatrix, 37, SWT.BOTTOM);
+		fd_matrixBox1.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox1.right = new FormAttachment(lblWelcomeToThe, 31, SWT.RIGHT);
+		fd_matrixBox1.top = new FormAttachment(randomMatrix, 13);
+		matrixBox1.setLayoutData(fd_matrixBox1);
+
+		matrixBox2 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox2 = new FormData();
+		fd_matrixBox2.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox2.top = new FormAttachment(matrixBox1, 6);
+		fd_matrixBox2.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox2.setLayoutData(fd_matrixBox2);
+
+		matrixBox3 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox3 = new FormData();
+		fd_matrixBox3.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox3.top = new FormAttachment(matrixBox2, 6);
+		fd_matrixBox3.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox3.setLayoutData(fd_matrixBox3);
+
+		matrixBox4 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox4 = new FormData();
+		fd_matrixBox4.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox4.top = new FormAttachment(matrixBox3, 10);
+		fd_matrixBox4.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox4.setLayoutData(fd_matrixBox4);
+
+		matrixBox5 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox5 = new FormData();
+		fd_matrixBox5.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox5.top = new FormAttachment(matrixBox4, 6);
+		fd_matrixBox5.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox5.setLayoutData(fd_matrixBox5);
+
+		matrixBox6 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox6 = new FormData();
+		fd_matrixBox6.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox6.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox6.top = new FormAttachment(matrixBox5, 6);
+		matrixBox6.setLayoutData(fd_matrixBox6);
+
+		matrixBox7 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox7 = new FormData();
+		fd_matrixBox7.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox7.top = new FormAttachment(matrixBox6, 6);
+		fd_matrixBox7.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		matrixBox7.setLayoutData(fd_matrixBox7);
+
+		matrixBox8 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox8 = new FormData();
+		fd_matrixBox8.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox8.top = new FormAttachment(matrixBox7, 6);
+		fd_matrixBox8.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		matrixBox8.setLayoutData(fd_matrixBox8);
+
+		matrixBox9 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox9 = new FormData();
+		fd_matrixBox9.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox9.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox9.top = new FormAttachment(matrixBox8, 6);
+		matrixBox9.setLayoutData(fd_matrixBox9);
+
+		matrixBox10 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox10 = new FormData();
+		fd_matrixBox10.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox10.top = new FormAttachment(matrixBox9, 6);
+		fd_matrixBox10.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox10.setLayoutData(fd_matrixBox10);
+
+		matrixBox11 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox11 = new FormData();
+		fd_matrixBox11.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox11.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox11.top = new FormAttachment(matrixBox10, 6);
+		matrixBox11.setLayoutData(fd_matrixBox11);
+
+		matrixBox12 = new Text(shell, SWT.BORDER);
+		FormData fd_matrixBox12 = new FormData();
+		fd_matrixBox12.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox12.top = new FormAttachment(matrixBox11, 6);
+		fd_matrixBox12.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		matrixBox12.setLayoutData(fd_matrixBox12);
+
+		Label lblReadingTheMatrix = new Label(shell, SWT.NONE);
+		lblReadingTheMatrix.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		FormData fd_lblReadingTheMatrix = new FormData();
+		fd_lblReadingTheMatrix.top = new FormAttachment(matrixBox12, 20);
+		fd_lblReadingTheMatrix.right = new FormAttachment(noteEight, 0, SWT.RIGHT);
+		lblReadingTheMatrix.setLayoutData(fd_lblReadingTheMatrix);
+		lblReadingTheMatrix.setText("READING THE MATRIX");
+
+		Label lblPrimeRowsLeft = new Label(shell, SWT.NONE);
+		lblPrimeRowsLeft.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		FormData fd_lblPrimeRowsLeft = new FormData();
+		fd_lblPrimeRowsLeft.left = new FormAttachment(0, 177);
+		fd_lblPrimeRowsLeft.top = new FormAttachment(lblReadingTheMatrix, 6);
+		lblPrimeRowsLeft.setLayoutData(fd_lblPrimeRowsLeft);
+		lblPrimeRowsLeft.setText("Prime Rows: Left to Right");
+
+		Label lblInversionRowsTop = new Label(shell, SWT.NONE);
+		lblInversionRowsTop.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		FormData fd_lblInversionRowsTop = new FormData();
+		fd_lblInversionRowsTop.top = new FormAttachment(lblPrimeRowsLeft, 6);
+		fd_lblInversionRowsTop.left = new FormAttachment(noteThree, 0, SWT.LEFT);
+		lblInversionRowsTop.setLayoutData(fd_lblInversionRowsTop);
+		lblInversionRowsTop.setText("Inversion Rows: Top to Bottom");
+
+		Label lblNewLabel = new Label(shell, SWT.NONE);
+		lblNewLabel.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		FormData fd_lblNewLabel = new FormData();
+		fd_lblNewLabel.top = new FormAttachment(lblInversionRowsTop, 6);
+		fd_lblNewLabel.left = new FormAttachment(noteThree, 0, SWT.LEFT);
+		lblNewLabel.setLayoutData(fd_lblNewLabel);
+		lblNewLabel.setText("Retograde Rows: Right to left");
+
+		Label lblRetrogradeinversionRowsbottomTo = new Label(shell, SWT.NONE);
+		lblRetrogradeinversionRowsbottomTo.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		FormData fd_lblRetrogradeinversionRowsbottomTo = new FormData();
+		fd_lblRetrogradeinversionRowsbottomTo.top = new FormAttachment(lblNewLabel, 6);
+		fd_lblRetrogradeinversionRowsbottomTo.left = new FormAttachment(0, 127);
+		lblRetrogradeinversionRowsbottomTo.setLayoutData(fd_lblRetrogradeinversionRowsbottomTo);
+		lblRetrogradeinversionRowsbottomTo.setText("Retrograde-Inversion Rows:Bottom to Top");
+
+	}
+}
