@@ -1,4 +1,4 @@
-aimport org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -291,7 +291,7 @@ public class TwelveToneMatrixGenerator {
 							check = false;
 					}
 
-					if (matrix[0][0] != 0 && check == false) {
+					if (matrix[0][0] != 0 || check == false) {
 						MessageDialog.openError(shell,"Error", "Make sure the first note is 0 and that proper numbers are entered");
 						return;
 					}
@@ -401,129 +401,166 @@ public class TwelveToneMatrixGenerator {
 		lblEachNoteIs.setText("Each pitch is given a value from 0-11, Eg. C=0, C#/Db=1,D=2 ...");
 
 		matrixBox1 = new Text(shell, SWT.BORDER);
+		matrixBox1.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox1 = new FormData();
+		fd_matrixBox1.left = new FormAttachment(lblYouCanWrite, -28, SWT.LEFT);
+		fd_matrixBox1.right = new FormAttachment(lblWelcomeToThe, 45, SWT.RIGHT);
 		fd_matrixBox1.bottom = new FormAttachment(randomMatrix, 37, SWT.BOTTOM);
-		fd_matrixBox1.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
-		fd_matrixBox1.right = new FormAttachment(lblWelcomeToThe, 31, SWT.RIGHT);
 		fd_matrixBox1.top = new FormAttachment(randomMatrix, 13);
 		matrixBox1.setLayoutData(fd_matrixBox1);
 
 		matrixBox2 = new Text(shell, SWT.BORDER);
+		matrixBox2.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox2 = new FormData();
-		fd_matrixBox2.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
-		fd_matrixBox2.top = new FormAttachment(matrixBox1, 6);
+		fd_matrixBox2.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		fd_matrixBox2.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox2.top = new FormAttachment(matrixBox1, 6);
 		matrixBox2.setLayoutData(fd_matrixBox2);
 
 		matrixBox3 = new Text(shell, SWT.BORDER);
+		matrixBox3.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox3 = new FormData();
-		fd_matrixBox3.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox3.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		fd_matrixBox3.top = new FormAttachment(matrixBox2, 6);
-		fd_matrixBox3.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox3.right = new FormAttachment(100, -22);
 		matrixBox3.setLayoutData(fd_matrixBox3);
 
 		matrixBox4 = new Text(shell, SWT.BORDER);
+		matrixBox4.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox4 = new FormData();
-		fd_matrixBox4.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
-		fd_matrixBox4.top = new FormAttachment(matrixBox3, 10);
 		fd_matrixBox4.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox4.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
+		fd_matrixBox4.top = new FormAttachment(matrixBox3, 10);
 		matrixBox4.setLayoutData(fd_matrixBox4);
 
 		matrixBox5 = new Text(shell, SWT.BORDER);
+		matrixBox5.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox5 = new FormData();
-		fd_matrixBox5.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		fd_matrixBox5.top = new FormAttachment(matrixBox4, 6);
 		fd_matrixBox5.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox5.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox5.setLayoutData(fd_matrixBox5);
 
 		matrixBox6 = new Text(shell, SWT.BORDER);
+		matrixBox6.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox6 = new FormData();
-		fd_matrixBox6.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
-		fd_matrixBox6.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		fd_matrixBox6.top = new FormAttachment(matrixBox5, 6);
+		fd_matrixBox6.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox6.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox6.setLayoutData(fd_matrixBox6);
 
 		matrixBox7 = new Text(shell, SWT.BORDER);
+		matrixBox7.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox7 = new FormData();
-		fd_matrixBox7.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
 		fd_matrixBox7.top = new FormAttachment(matrixBox6, 6);
-		fd_matrixBox7.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox7.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox7.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox7.setLayoutData(fd_matrixBox7);
 
 		matrixBox8 = new Text(shell, SWT.BORDER);
+		matrixBox8.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox8 = new FormData();
-		fd_matrixBox8.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
 		fd_matrixBox8.top = new FormAttachment(matrixBox7, 6);
-		fd_matrixBox8.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
+		fd_matrixBox8.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox8.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox8.setLayoutData(fd_matrixBox8);
 
 		matrixBox9 = new Text(shell, SWT.BORDER);
+		matrixBox9.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox9 = new FormData();
-		fd_matrixBox9.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
-		fd_matrixBox9.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
 		fd_matrixBox9.top = new FormAttachment(matrixBox8, 6);
+		fd_matrixBox9.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox9.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox9.setLayoutData(fd_matrixBox9);
 
 		matrixBox10 = new Text(shell, SWT.BORDER);
+		matrixBox10.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox10 = new FormData();
-		fd_matrixBox10.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		fd_matrixBox10.top = new FormAttachment(matrixBox9, 6);
-		fd_matrixBox10.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox10.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
+		fd_matrixBox10.right = new FormAttachment(100, -22);
 		matrixBox10.setLayoutData(fd_matrixBox10);
 
 		matrixBox11 = new Text(shell, SWT.BORDER);
+		matrixBox11.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox11 = new FormData();
-		fd_matrixBox11.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
-		fd_matrixBox11.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
 		fd_matrixBox11.top = new FormAttachment(matrixBox10, 6);
+		fd_matrixBox11.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox11.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox11.setLayoutData(fd_matrixBox11);
 
 		matrixBox12 = new Text(shell, SWT.BORDER);
+		matrixBox12.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		FormData fd_matrixBox12 = new FormData();
-		fd_matrixBox12.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		fd_matrixBox12.top = new FormAttachment(matrixBox11, 6);
 		fd_matrixBox12.right = new FormAttachment(matrixBox1, 0, SWT.RIGHT);
+		fd_matrixBox12.left = new FormAttachment(matrixBox1, 0, SWT.LEFT);
 		matrixBox12.setLayoutData(fd_matrixBox12);
 
 		Label lblReadingTheMatrix = new Label(shell, SWT.NONE);
 		lblReadingTheMatrix.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		FormData fd_lblReadingTheMatrix = new FormData();
-		fd_lblReadingTheMatrix.top = new FormAttachment(matrixBox12, 20);
-		fd_lblReadingTheMatrix.right = new FormAttachment(noteEight, 0, SWT.RIGHT);
+		fd_lblReadingTheMatrix.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		lblReadingTheMatrix.setLayoutData(fd_lblReadingTheMatrix);
 		lblReadingTheMatrix.setText("READING THE MATRIX");
 
 		Label lblPrimeRowsLeft = new Label(shell, SWT.NONE);
+		fd_lblReadingTheMatrix.bottom = new FormAttachment(lblPrimeRowsLeft, -6);
 		lblPrimeRowsLeft.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		FormData fd_lblPrimeRowsLeft = new FormData();
-		fd_lblPrimeRowsLeft.left = new FormAttachment(0, 177);
-		fd_lblPrimeRowsLeft.top = new FormAttachment(lblReadingTheMatrix, 6);
+		fd_lblPrimeRowsLeft.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		lblPrimeRowsLeft.setLayoutData(fd_lblPrimeRowsLeft);
 		lblPrimeRowsLeft.setText("Prime Rows: Left to Right");
 
 		Label lblInversionRowsTop = new Label(shell, SWT.NONE);
+		fd_lblPrimeRowsLeft.bottom = new FormAttachment(lblInversionRowsTop, -6);
 		lblInversionRowsTop.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		FormData fd_lblInversionRowsTop = new FormData();
-		fd_lblInversionRowsTop.top = new FormAttachment(lblPrimeRowsLeft, 6);
-		fd_lblInversionRowsTop.left = new FormAttachment(noteThree, 0, SWT.LEFT);
+		fd_lblInversionRowsTop.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		lblInversionRowsTop.setLayoutData(fd_lblInversionRowsTop);
 		lblInversionRowsTop.setText("Inversion Rows: Top to Bottom");
 
 		Label lblNewLabel = new Label(shell, SWT.NONE);
+		fd_lblInversionRowsTop.bottom = new FormAttachment(lblNewLabel, -6);
 		lblNewLabel.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		FormData fd_lblNewLabel = new FormData();
-		fd_lblNewLabel.top = new FormAttachment(lblInversionRowsTop, 6);
-		fd_lblNewLabel.left = new FormAttachment(noteThree, 0, SWT.LEFT);
+		fd_lblNewLabel.left = new FormAttachment(lblYouCanWrite, 0, SWT.LEFT);
 		lblNewLabel.setLayoutData(fd_lblNewLabel);
 		lblNewLabel.setText("Retograde Rows: Right to left");
 
 		Label lblRetrogradeinversionRowsbottomTo = new Label(shell, SWT.NONE);
+		fd_lblNewLabel.bottom = new FormAttachment(100, -106);
 		lblRetrogradeinversionRowsbottomTo.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		FormData fd_lblRetrogradeinversionRowsbottomTo = new FormData();
-		fd_lblRetrogradeinversionRowsbottomTo.top = new FormAttachment(lblNewLabel, 6);
-		fd_lblRetrogradeinversionRowsbottomTo.left = new FormAttachment(0, 127);
+		fd_lblRetrogradeinversionRowsbottomTo.top = new FormAttachment(lblNewLabel, 8);
+		fd_lblRetrogradeinversionRowsbottomTo.right = new FormAttachment(noteSeven, 0, SWT.RIGHT);
 		lblRetrogradeinversionRowsbottomTo.setLayoutData(fd_lblRetrogradeinversionRowsbottomTo);
-		lblRetrogradeinversionRowsbottomTo.setText("Retrograde-Inversion Rows:Bottom to Top");
+		lblRetrogradeinversionRowsbottomTo.setText("Retrograde-Inversion Rows: Bottom to Top");
+		
+		Label lblExampleLegend = new Label(shell, SWT.NONE);
+		lblExampleLegend.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		FormData fd_lblExampleLegend = new FormData();
+		fd_lblExampleLegend.top = new FormAttachment(lblPrimeRowsLeft, 0, SWT.TOP);
+		fd_lblExampleLegend.left = new FormAttachment(lblRetrogradeinversionRowsbottomTo, 43);
+		fd_lblExampleLegend.right = new FormAttachment(noteTen, 0, SWT.RIGHT);
+		lblExampleLegend.setLayoutData(fd_lblExampleLegend);
+		lblExampleLegend.setText("0=C\r\n1=C#/Db\r\n2=D\r\n3=D#/Eb\r\n4=E\r\n5=F\r\n");
+		
+		Label lblExampleLegend_1 = new Label(shell, SWT.NONE);
+		lblExampleLegend_1.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		FormData fd_lblExampleLegend_1 = new FormData();
+		fd_lblExampleLegend_1.top = new FormAttachment(lblReadingTheMatrix, 0, SWT.TOP);
+		fd_lblExampleLegend_1.right = new FormAttachment(lblWelcomeToThe, 0, SWT.RIGHT);
+		lblExampleLegend_1.setLayoutData(fd_lblExampleLegend_1);
+		lblExampleLegend_1.setText("Sample Legend");
+		
+		Label lblfgbggab = new Label(shell, SWT.NONE);
+		lblfgbggab.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblfgbggab.setText("6=F#/Gb\r\n7=G\r\n8=G#/Ab\r\n9=A\r\n10=A#/Bb\r\n11=B");
+		FormData fd_lblfgbggab = new FormData();
+		fd_lblfgbggab.left = new FormAttachment(lblExampleLegend, 22);
+		fd_lblfgbggab.top = new FormAttachment(lblPrimeRowsLeft, 0, SWT.TOP);
+		lblfgbggab.setLayoutData(fd_lblfgbggab);
 
 	}
 }
