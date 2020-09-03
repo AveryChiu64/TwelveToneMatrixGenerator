@@ -5,6 +5,6 @@ Arnold Schoenberg. It was developed in the early 20th century. The Second Vienni
 ![TwelveToneMatrixGenerator](twelvetone.png)
 
 Sources
-https://en.m.wikipedia.org/wiki/Twelve-tone_technique
+https://en.m.wikipedia.org/wiki/Twelve-tone_technique <br>
 https://en.wikipedia.org/wiki/Serialism
 
